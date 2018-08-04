@@ -1,6 +1,12 @@
 // Cerebro del chatbot
 
-! var num = 37555
++ #
+* <star1> == <get num> => Excelente! Ese es el número correcto!
+* <star1> > <get num> => Te pasaste! Elige un número menor!
+* <star1> < <get num> => Casi! Elige un número mayor!
+
++ set #
+- <set num=<star>>
 
 + *
 - Adivina un numero entre 1 y 99999
