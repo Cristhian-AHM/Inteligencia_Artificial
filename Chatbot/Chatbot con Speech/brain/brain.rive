@@ -1,6 +1,18 @@
 // Cerebro del chatbot
 
-//El '#' indica que recibira un número, en este caso recibe el número, y realiza comparaciones para
+//Sintaxis de RiveScript
+
+//El '+' indica lo que el bot espera recibir (Lo que el usuario introducira).
+//El '-' es la respuesta del bot.
+//El '#' sirve para atrapar todos los numeros.
+//El '*' caputra cualquier palabra que el usuario escriba.
+//El '[*]' le indica a RiveScript que puede recibir una o varias palabras se usa para buscar
+//una palabra en una oracion.
+//El '%' indica continuidad, de esta forma el bot tendrá un hilo conductor.
+//El 'set' sirve para asignar variables en tiempo de ejecucion.
+//El 'get' se usa para recuperar variables en tiempo de ejecucion.
+
+//El '#' indica que recibira un número sin importar cual sea, en este caso recibe el número, y realiza comparaciones para
 //saber si es el número creado al azar.
 + #
 * <star1> == <get num> => Excelente! Ese es el número correcto!
