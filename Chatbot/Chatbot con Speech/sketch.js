@@ -5,17 +5,22 @@ function setup() {
   noCanvas();
   let lang = 'es-ES';
   let continuous = true;
+  //Se crea objeto de p5.Speech.
   speech = new p5.Speech();
-  speech.onLoad = voiceReady;
+  //Se crea objeto de p5.SpeechRec.
   speechRec = new p5.SpeechRec(lang);
   //Creo un bot con la librería RiveScript.
   let bot = new RiveScript();
 
   //Cargo la locación del "Cerebro" del bot.
   bot.loadFile("brain/brain.rive").then(brainReady).catch(brainError);
-
+  //Se le indica la funcion que deberá realizar al cargar el objeto.
+  speech.onLoad = voiceReady;
+  //Se indica a la función que ira cuando se obtengan datos.
   speechRec.onResult = EntradaDatos;
+  //Se indica que siga escuchando siempre.
   speechRec.continuous = continuous;
+  //Se inicia la toma de sonido.
   speechRec.start();
   //Funcón que indica que el cerebro del bot se cargo correctamente.
   function brainReady() {
@@ -38,16 +43,20 @@ function setup() {
 
 
   function EntradaDatos(){
+    //Evalua si se logro reconocer algo o no.
     if(speechRec.resultValue){
+      //Guardo lo que se reconocio en una variable.
       let entrada = speechRec.resultString;
+      //Muestra lo que se reconocio en la ventana.
       bot_output.html(entrada);
+      //Llamo al bot.
       bot.reply("local-user", entrada).then(function(reply) {
         speech.speak(reply);
-        console.log(reply);
       });
     }
   }
   function voiceReady(){
-    speech.setVoice("Google 日本語");
+    //Aqui cambia el idioma del speech.
+    //speech.setVoice("Google 日本語");
   }
 }
