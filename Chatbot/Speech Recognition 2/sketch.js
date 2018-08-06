@@ -31,7 +31,7 @@ function setup() {
 
   //El metodo que ejecuta cuando se detecta algo.
   speechRec.onResult = parseResult;
-  //Inicia el sistema.
+  //Inicia el sistema de reconocimiento.
   speechRec.start();
 }
 
