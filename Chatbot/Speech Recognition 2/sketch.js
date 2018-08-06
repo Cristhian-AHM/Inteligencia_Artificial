@@ -14,17 +14,13 @@ function setup() {
   background(255, 255, 255);
   //Se establece el color de la figura en negro.
   fill(0, 0, 0, 255);
-<<<<<<< HEAD
   //Se declarán los puntos iniciales de la figura a la mitad de la ventana.
-=======
   //Se declarán los puntos iniciales a la mitad de la ventana.
->>>>>>> aa76c5903a215e35fdf468103473104f642385aa
   x = width / 2;
   y = height / 2;
   dx = 0;
   dy = 0;
 
-<<<<<<< HEAD
   //Seleccionamos el idioma.
   var lang = 'es-ES' || navigator.language;
   speechRec = new p5.SpeechRec(lang); //Creamos el objeto p5.SpeechRec.
@@ -41,32 +37,13 @@ function setup() {
 }
 
 function showInstructions() {
-  //Muestra las instrucciones.
-=======
-  var lang = 'es-ES' || navigator.language;
-  speechRec = new p5.SpeechRec(lang); // new P5.SpeechRec object
-  speechRec.continuous = true; // do continuous recognition
-  speechRec.interimResults = false; // allow partial recognition (faster, less accurate)
-
-  showInstructions();
-
-  speechRec.onResult = parseResult; // recognition callback
-  speechRec.start(); // start engine
-}
-
-function showInstructions() {
-  // instructions:
->>>>>>> aa76c5903a215e35fdf468103473104f642385aa
   fill(0, 0, 0, 255);
   textSize(20);
   textAlign(LEFT);
   text("Instrucciones: Arriba, Abajo, Izquierda, Derecha, Limpia, Crece, Disminuye", 20, 20);
 }
 
-<<<<<<< HEAD
 //Dibuja una elipse.
-=======
->>>>>>> aa76c5903a215e35fdf468103473104f642385aa
 function draw() {
   ellipse(x, y, 5 * Scale, 5 * Scale);
   x += dx;
@@ -78,13 +55,8 @@ function draw() {
 }
 
 function parseResult() {
-<<<<<<< HEAD
   //El sistema de reconocimiento junta las palabras para formar frases
   //eliminamos eso para volverlas palabras individuales.
-=======
-  // recognition system will often append words into phrases.
-  // so hack here is to only use the last word:
->>>>>>> aa76c5903a215e35fdf468103473104f642385aa
   var instruccion = speechRec.resultString.split(' ').pop();
   console.log(instruccion);
   if (instruccion.indexOf("izquierda") !== -1) {
