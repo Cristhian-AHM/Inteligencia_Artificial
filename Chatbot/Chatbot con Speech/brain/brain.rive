@@ -1,0 +1,35 @@
+// Cerebro del chatbot
+
+//El '#' indica que recibira un número, en este caso recibe el número, y realiza comparaciones para
+//saber si es el número creado al azar.
++ #
+* <star1> == <get num> => Excelente! Ese es el número correcto!
+* <star1> > <get num> => Te pasaste! Elige un número menor!
+* <star1> < <get num> => Casi! Elige un número mayor!
+
+//Cada que el cerebro reciba un número despues de la palabra 'set' creará y asignará ese valor
+//a una variable llamada 'num'.
++ set #
+- <set num=<star>>
+
+//Cualquier texto que reciba te regresara el mensaje 'Adivina un numero entre 1 y 99999'
++ juguemos
+- OK! Adivina un numero entre 1 y 100!
+
++ hola
+- Hola, como te llamas?
+
++ * [*]
+% hola como te llamas
+- <set name=<star>>Mucho gusto en conocerte <get name>, como quieres que me llame?
+
++ [*] llamarte *
+% mucho gusto en conocerte * como quieres que me llame
+- <set myname=<star>><get myname> me agrada :)
+
++ *
+% mucho gusto en conocerte * como quieres que me llame
+- <set myname=<star>><get myname> me agrada :)
+
++ nos vemos
+- Fue un placer platicar contigo <get name>
