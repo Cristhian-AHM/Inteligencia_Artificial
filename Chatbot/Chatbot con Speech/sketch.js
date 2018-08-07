@@ -31,7 +31,7 @@ function setup() {
     //Creo un número al azar entre 1 y 100.
     let randomNum = floor(random(100)) + 1;
     //Le mando el número al cerebro del Chatbot.
-    bot.reply("local-user", "set " + randomNum);
+    bot.setVariable("num" , randomNum);
   }
 
   //Funcón que indica que el cerebro del bot tuvo problema al cargarse.
