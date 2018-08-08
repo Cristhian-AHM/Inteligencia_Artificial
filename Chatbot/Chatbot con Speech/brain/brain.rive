@@ -1,7 +1,7 @@
 // Cerebro del chatbot
 
 //Sintaxis de RiveScript
-
+! var num = 6
 //El '+' indica lo que el bot espera recibir (Lo que el usuario introducira).
 //El '-' es la respuesta del bot.
 //El '#' sirve para atrapar todos los numeros.
@@ -15,9 +15,9 @@
 //El '#' indica que recibira un número sin importar cual sea, en este caso recibe el número, y realiza comparaciones para
 //saber si es el número creado al azar.
 + #
-* <star1> == <get num> => Excelente! Ese es el número correcto!
-* <star1> > <get num> => Te pasaste! Elige un número menor!
-* <star1> < <get num> => Casi! Elige un número mayor!
+* <star1> == <bot num> => Excelente! Ese es el número correcto!
+* <star1> > <bot num> => Te pasaste! Elige un número menor!
+* <star1> < <bot num> => Casi! Elige un número mayor!
 
 //Cada que el cerebro reciba un número despues de la palabra 'set' creará y asignará ese valor
 //a una variable llamada 'num'.
