@@ -100,10 +100,13 @@ function findNearestNeigbhors(user, similarity) {
         var sim = similarityScores[name];
         var ratings = users[j];
         var rating = ratings[title];
+
         weightedSum += rating * sim;
 				Recommendations[title].total = weightedSum;
+
         similaritySum += sim;
 				Recommendations[title].simSum = similaritySum;
+        
         Results = weightedSum / similaritySum;
 				Recommendations[title].ranking = Results;
       }
