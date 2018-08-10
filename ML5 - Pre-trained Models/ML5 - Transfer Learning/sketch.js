@@ -1,3 +1,18 @@
+//Programa que sirve para re-entrenar modelo que usa MobileNet.
+
+//Instrucciones:
+
+//-Permite que Google Chrome acceda a la camara.
+//-Se mostrarán tres botones, 'Cat', 'Dog' y 'Train'
+//-Los dos primeros sirven para obtener ejemplos de como un gato ó un perro deberían verse
+//cada que presiones uno de los botones se almacenará la iamgen del video y la guardara como
+//ejemplo de lo que hayas seleccionado.
+//-Una vez obtenidos suficientes objetos el botón 'Train' procederá a re-entrenar a la red.
+
+//-Con eso, el sistema realizará el reconocimiento.
+
+//Nota: Solo funciona en Google Chrome.
+
 //Variable para almacenar el video.
 let video;
 //Variable para almacenar el objeto que hará la clasificación.
