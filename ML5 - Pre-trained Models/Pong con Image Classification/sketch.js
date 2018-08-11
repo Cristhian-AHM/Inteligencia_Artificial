@@ -127,7 +127,7 @@ function training(loss){
 }
 
 function HideElements(){
-  video.show();
+  //svideo.show();
   leftUp.hide();
   rightUp.hide();
   leftDown.hide();
@@ -146,7 +146,6 @@ function gotResults(error, results){
       }else if(results === 'RDown'){
         right.move(10);
       }
-      console.log(results);
 			//Vuelvo a llamar al mismo método para que constantemente este haciendo la clasificación.
 			classifier.classify(gotResults);
 		}
