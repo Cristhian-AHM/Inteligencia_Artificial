@@ -77,9 +77,7 @@ function training(loss){
 		console.log("Loss: " + loss);
 	}
 }
-function classifyImage(){
-	classifier.classify(gotResults);
-}
+
 
 function gotResults(error, results){
 	//Si hay error lo muestro.
