@@ -1,3 +1,5 @@
+//Programa que genera música mediante el algoritmo k-nn.
+
 //MIDI note numbers - http://www.inspiredacoustics.com/en/MIDI_note_numbers_and_center_frequencies.
 var cmajor = {
   'C': 60, // Frecuencia de 261.63
