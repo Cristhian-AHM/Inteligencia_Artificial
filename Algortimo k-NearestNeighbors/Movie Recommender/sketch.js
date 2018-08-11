@@ -1,3 +1,11 @@
+//Recomendador de películas usando el algoritmo k-nn.
+
+//Instrucciones:
+
+//Se muestrán diferentes películas solo califica aquellas que hayas Visto
+//una vez hecho presiona el botón submit que en base a tus calificacines
+//te recomendará las películas que es probable mas te gusten.
+
 var data;
 var users;
 var similarityScores = {};
@@ -106,7 +114,7 @@ function findNearestNeigbhors(user, similarity) {
 
         similaritySum += sim;
 				Recommendations[title].simSum = similaritySum;
-        
+
         Results = weightedSum / similaritySum;
 				Recommendations[title].ranking = Results;
       }
