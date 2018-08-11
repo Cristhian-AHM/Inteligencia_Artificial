@@ -18,44 +18,39 @@ var featureExtractor;
 var classifier;
 //Botones para el entrenamiento.
 var leftUp, leftDown, rightUp, rightDown, train;
+
 function setup() {
   createCanvas(600, 400);
   video = createCapture(VIDEO);
   video.hide();
   Pong();
   Classifier();
+  ShowButtons();
+}
+
+function ShowButtons() {
   //Creo los botones.
-	leftUp = createButton("Arriba Izquierda");
   rightUp = createButton("Arriba Derecha");
-  leftDown = createButton("Abajo Izquierda");
   rightDown = createButton("Abajo Derecha");
   train = createButton("Train");
 
   //Cuando el botón 'Train' se presione se procederá a re-entrenar a la Red Neuronal
-	train.mousePressed(function(){
-		classifier.train(training);
-	});
+  train.mousePressed(function() {
+    classifier.train(training);
+  });
 
-  //Cuando el botón Cat ó Dog sea presionado se agregara la imagen que tome del video
-  //y lo manejara como un ejemplo de lo que es un gato.
+  rightUp.mousePressed(function() {
+    //Pasa la imagen que la obtiene del video y la etiqueta como 'RUp'
+    classifier.addImage('RUp');
+  });
 
-
-  rightUp.mousePressed(function(){
-    //Pasa la imagen que la obtiene del video y la etiqueta como 'Cat'
-		classifier.addImage('RUp');
-	});
-
-	rightDown.mousePressed(function(){
-    //Pasa la imagen que la obtiene del video y la etiqueta como 'Dog'
-		classifier.addImage('RDown');
-	});
+  rightDown.mousePressed(function() {
+    //Pasa la imagen que la obtiene del video y la etiqueta como 'RDown'
+    classifier.addImage('RDown');
+  });
 }
 
-function ShowButtons(){
-
-}
-
-function Classifier(){
+function Classifier() {
   //Creo el objeto ml5 para extraer los elementos.
   featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded);
   //Creo el objeto para re-entrenar al modelo
@@ -63,6 +58,7 @@ function Classifier(){
 }
 
 function Pong() {
+  //Creo los elementos del Pong.
   ding = loadSound("music/ding.mp3");
   puck = new Puck();
   left = new Paddle(true);
@@ -72,24 +68,27 @@ function Pong() {
 function draw() {
   background(0);
 
+  //Si es verdadero el juego inicia.
   if (play) {
+    //Verifico la posición de las paletas.
     puck.checkPaddleRight(right);
     puck.checkPaddleLeft(left);
-
+    //Muestro las paletas.
     left.show();
     right.show();
     left.update();
     right.update();
-
+    //Actualizo la posición de la pelota.
     puck.update();
     puck.edges();
     puck.show();
-
+    //Escribo el marcador.
     fill(255);
     textSize(32);
     text(leftscore, 32, 40);
     text(rightscore, width - 64, 40);
-  }else{
+  } else {
+    //Si apenas se esta realizando el entrenamiento se muestra el video.
     image(video, 0, 0);
   }
 }
@@ -99,6 +98,7 @@ function keyReleased() {
   right.move(0);
 }
 
+//Controles
 function keyPressed() {
   if (key == 'A') {
     left.move(-10);
@@ -113,20 +113,27 @@ function keyPressed() {
   }
 }
 
-function training(loss){
-	if(loss === null){
-		console.log("Training Complete!");
+//función que se ejecuta al entrenar la red neuronal.
+function training(loss) {
+  //Si ya termino de entrenar.
+  if (loss === null) {
+    //Muestra que termino.
+    console.log("Training Complete!");
+    //Activa el juego.
     play = true;
+    //Esconde los elementos.
     HideElements();
+    //Llama al calsificador de imagenes.
     classifier.classify(gotResults);
-	}else{
+  } else {
     //Cuando se realiza el entrenamiento, se obtiene la perdida 'Loss' que
     //es cuanto va mejorando la red en reconocer el ejemplo.
-		console.log("Loss: " + loss);
-	}
+    console.log("Loss: " + loss);
+  }
 }
 
-function HideElements(){
+//Esconde los elementos.
+function HideElements() {
   //svideo.show();
   leftUp.hide();
   rightUp.hide();
@@ -135,24 +142,24 @@ function HideElements(){
   train.hide();
 }
 
-function gotResults(error, results){
-	//Si hay error lo muestro.
-		if(error){
-			console.error(error);
-		}else{
-			//Cambio el mensaje a lo que haya en el primer objeto de la clasificación.
-			if(results === 'RUp'){
-        right.move(-10);
-      }else if(results === 'RDown'){
-        right.move(10);
-      }
-			//Vuelvo a llamar al mismo método para que constantemente este haciendo la clasificación.
-			classifier.classify(gotResults);
-		}
+function gotResults(error, results) {
+  //Si hay error lo muestro.
+  if (error) {
+    console.error(error);
+  } else {
+    //Cambio el mensaje a lo que haya en el primer objeto de la clasificación.
+    if (results === 'RUp') {
+      right.move(-10);
+    } else if (results === 'RDown') {
+      right.move(10);
+    }
+    //Vuelvo a llamar al mismo método para que constantemente este haciendo la clasificación.
+    classifier.classify(gotResults);
+  }
 }
 
-function videoReady(){
-	console.log("Video Ready!");
+function videoReady() {
+  console.log("Video Ready!");
 }
 
 function modelLoaded() {
