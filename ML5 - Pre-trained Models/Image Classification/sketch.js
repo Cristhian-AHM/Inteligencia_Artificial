@@ -1,3 +1,9 @@
+//Programa para la clasificación de imágenes.
+
+//Instrucciones:
+
+//Solo arrastra una imagen al navegador para que realice la clasificación.
+
 //Variable para almacenar el objeto que hará la predicción.
 let MobileNet;
 //Variable para almacenar la foto que el usuario arrastrará.
