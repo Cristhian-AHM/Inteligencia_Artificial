@@ -1,3 +1,11 @@
+//Programa para hacer clasificación de imagenes mediante video usando el un
+//modelo pre-entrenado conocido como MobileNet
+
+//Instrucciones:
+
+//Solo abrelo en el navegador y autoriza el uso de la camara.
+
+
 //Variable para almacenar el video.
 let video;
 //Variable para almacenar el objeto que hará la clasificación.
