@@ -17,6 +17,7 @@ Puck.prototype.checkPaddleLeft = function(p) {
       this.yspeed = 5 * sin(angle);
       this.x = p.x + p.w / 2 + this.r;
       //xspeed *= -1;
+      ding.play();
     }
   }
 }
@@ -29,6 +30,7 @@ Puck.prototype.checkPaddleRight = function(p) {
       this.xspeed = 5 * cos(angle);
       this.yspeed = 5 * sin(angle);
       this.x = p.x - p.w / 2 - this.r;
+      ding.play();
     }
   }
 }
@@ -60,13 +62,11 @@ Puck.prototype.edges = function() {
   }
 
   if (this.x - this.r > 600) {
-    //ding.play();
     leftscore++;
     this.reset();
   }
 
   if (this.x + this.r < 0) {
-    //ding.play();
     rightscore++;
     this.reset();
   }
