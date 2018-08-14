@@ -1,7 +1,9 @@
 //Variable que almacenara al perceptron.
 let perc;
 //Puntos al azar para entrenar al perceptron.
-let trainingPoints = new Array(500);
+let trainingPoints = [];
+
+let ArrayLength = 500;
 
 // Coordenadas en el espacio.
 let xmin = -1;
@@ -15,7 +17,7 @@ function setup() {
   //Declaro al perceptron que contará con tres pesos y una tasa de aprendizaje de 0.01.
   perc = new perceptron(3, 0.01);
   //Se generan todos los puntos al azar.
-  for (var i = 0; i < trainingPoints.length; i++) {
+  for (var i = 0; i < ArrayLength; i++) {
     //Se generan puntos aleatorios entre -1 y 1.
     let x = random(xmin, xmax);
     let y = random(ymin, ymax);
@@ -76,6 +78,7 @@ function draw() {
     let x = map(trainingPoints[i].input[0], -1, 1, 0, windowWidth);
     let y = map(trainingPoints[i].input[1], -1, 1, windowHeight, 0);
     ellipse(x, y, 8, 8);
+    perc.train(trainingPoints[i].input, trainingPoints[i].output);
   }
 
 
@@ -83,9 +86,18 @@ function draw() {
 
 //Cada que se presiona el mouse, se entrena el perceptron.
 function mousePressed() {
-  for (var i = 0; i < trainingPoints.length; i++) {
-    perc.train(trainingPoints[i].input, trainingPoints[i].output);
-  }
+  let x = map(mouseX, 0, windowWidth, -1, 1);
+  let y = map(mouseY, windowHeight, 0, -1, 1);
+
+  let answer = 1;
+
+  if(y < f(x)) answer = -1;
+
+  trainingPoints[ArrayLength++] = {
+    input: [x, y, 1],
+    output: answer
+  };
+
 }
 
 //Función que genera una recta.
