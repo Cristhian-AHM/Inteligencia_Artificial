@@ -1,3 +1,12 @@
+//Perceptron simple.
+
+//Este programa muestra la toma de desiciones de un perceptron simple.
+
+//Genera puntos al azar, y una recta, a los puntos arriba de la recta se les asigna un 1
+//y los de abajo un -1, el perceptron aprende la diferencia. La linea negra es la recta.
+//La linea azul es lo que el perceptron cree es la linea correcta. Para cambiar la Ecuación
+//de la recta solo es necesario dar click sobre el canvas.
+
 //Variable que almacenara al perceptron.
 let perc;
 //Puntos al azar para entrenar al perceptron.
@@ -10,6 +19,10 @@ let xmin = -1;
 let ymin = -1;
 let xmax = 1;
 let ymax = 1;
+
+//Ecuación de la recta.
+let m = 0.8;
+let b = 0.8;
 
 function setup() {
   //Crea el canvas.
@@ -86,22 +99,26 @@ function draw() {
 
 //Cada que se presiona el mouse, se entrena el perceptron.
 function mousePressed() {
-  let x = map(mouseX, 0, windowWidth, -1, 1);
-  let y = map(mouseY, windowHeight, 0, -1, 1);
+  m = prompt("Introduzca la pendiente de la recta (m): ", m);
+  b = prompt("Introduzca el punto de corte (b): ", b);
 
-  let answer = 1;
-
-  if(y < f(x)) answer = -1;
-
-  trainingPoints[ArrayLength++] = {
-    input: [x, y, 1],
-    output: answer
-  };
-
+  adjustPoints();
 }
 
+function adjustPoints() {
+  for (var i = 0; i < ArrayLength; i++) {
+    let answer = 1;
+    //f es una función que genera una recta, evalua si el punto se genero arriba o abajo
+    //de la recta y en base a eso asigna la respuesta correcta que es 1 o -1.
+    if (trainingPoints[i].input[1] < f(trainingPoints[i].input[0])) answer = -1;
+    //Genera un objeto que almacena las entradas que recibira el perceptron que son
+    //X, Y y el umbral.
+    //Tambien almacena la respuesta correcta en ese objeto.
+    trainingPoints[i].output = answer;
+  }
+}
 //Función que genera una recta.
 function f(x) {
-  let y = 0.8 * x + 0.8;
+  let y = m * x + b;
   return y;
 }
