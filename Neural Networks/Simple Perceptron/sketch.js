@@ -12,7 +12,7 @@ let perc;
 //Puntos al azar para entrenar al perceptron.
 let trainingPoints = [];
 
-let ArrayLength = 500;
+let ArrayLength = 1000;
 
 // Coordenadas en el espacio.
 let xmin = -1;
@@ -97,10 +97,14 @@ function draw() {
 
 }
 
-//Cada que se presiona el mouse, se entrena el perceptron.
+//Cada que se presiona el mouse, se te pide cambiar los valores de la recta.
 function mousePressed() {
   m = prompt("Introduzca la pendiente de la recta (m): ", m);
   b = prompt("Introduzca el punto de corte (b): ", b);
+
+  //Haciendo el parse de String a Integer.
+  m = Number(m);
+  b = Number(b);
 
   adjustPoints();
 }
