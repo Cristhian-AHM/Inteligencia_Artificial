@@ -1,87 +1,73 @@
-//Genetic Algorithm - Shakespeare's Monkey
-
-//Demostración del uso de una algoritmo genetico para realizar una busqueda.
-
-//El algoritmo funciona de la siguiente manera:
-//1.- Genera la población.
-//2.- Selección.
-//    - Crea una mating pool.
-//    - Por cada miembro de la población evlua su fitness basado en cierto criterio, y usando
-//      ese criterio también los agrega a la mating pool para crear un nuevo elemento.
-//
-//3.- Reproducción
-//    - Se crea una nueva población teniendo en cuenta lo siguiente:
-//       1. Elige dos 'padres' del mating pool.
-//       2. Crea un 'hijo' usando las caracteristicas de sus padres.
-//       3. El 'hijo' sufrirá una mutación en base a la tasa de mutación.
-//       4. Se agregá el 'hijo' a la nueva población.
-//    #-Se reemplaza la vieja población con la nueva.
-//
-//4.- Repetir.
-
-
-let target;
-let popmax;
-let mutationRate;
-let population;
-
-let mejorFrase;
-let allPhrases;
-let stats;
-let time;
+var seed;
+var seedInput;
+var constante;
+var constInput;
+var iterations;
+var iterationInput;
 
 function setup() {
-  mejorFrase = createP("Mejor Frase:");
-  mejorFrase.class("Mejor");
+  noCanvas(); //No crea Canvas.
+  seed = createDiv("Semilla: ");
+  seed.style('padding', '4px 0px');
+  seedInput = createInput();
 
-  allPhrases = createP("Todas las frases:");
-  allPhrases.position(600, 10);
-  allPhrases.class("all");
+  constante = createDiv("Constante: ");
+  constante.style('padding', '4px 0px');
+  constInput = createInput();
 
-  stats = createP("Stats");
-  stats.class("stats");
+  iterations = createDiv("Iteraciones: ");
+  iterations.style('padding', '4px 0px');
+  iterationInput = createInput();
 
-  target = "Puto el que lo lea.";
-  popmax = 300;
-  mutationRate = 0.01;
+  var submit = createButton("Calcular Algoritmo");
+  submit.style('padding', '4px 0px');
 
-  //Se crea una población con la frase que se espera, la tasa de mutación y una población maxima.
-  population = new Population(target, mutationRate, popmax);
+  seed.parent("#interface");
+  seedInput.parent(seed);
+
+  constante.parent("#interface");
+  constInput.parent(constante);
+
+  iterations.parent("#interface");
+  iterationInput.parent(iterations);
+
+  submit.parent("#interface");
+
+  submit.mousePressed(MultiplicadorConstante);
 }
 
-function draw() {
+function MultiplicadorConstante() {
+  select("#results").html('');
+  let Seed = parseInt(seedInput.value()); // Semilla
+  let Constante = parseInt(constInput.value()); // Constante
+  let Iteraciones = parseInt(iterationInput.value()); // Numero de Iteraciones
+  let SeedSize =  Seed.toString().length;
 
-  //Genera una mating pool.
-  population.naturalSelection();
-  //Crea la siguiente generación.
-  population.generate();
-  //Calcula su fitness.
-  population.calcFitness();
+  for (let i = 0; i < Iteraciones; i++) {
 
+    let mult = Seed * Constante;
+    let MultSize = mult.toString().length;
 
-  population.evaluate();
+    if (MultSize % 2 == 0) {
+      let d1 = (MultSize - SeedSize) / 2;
+      let d2 = d1 + SeedSize;
 
-  //Si se consiguió la frase deseada termina.
-  if (population.isFinished()) {
-    noLoop();
+      nn = mult.toString();
+      let sub = nn.substring(d1, d2);
+      var rec = createP("Iteración: " + (i+1) + ": (" + Constante +") * (" + Seed + ") = " + nn + "<br>    x" + i + ": " + sub + "    r" + i + ": 0." + (sub));
+      Seed = parseInt(sub);
+      rec.parent('#results');
+    } else {
+      nc = "0" + mult.toString();
+      MultSize = nc.length;
+      let d1 = (MultSize - SeedSize) / 2;
+      let d2 = d1 + SeedSize;
+      let nn = nc;
+      var sub = nn.substring(d1, d2);
+      var rec = createP("Iteración: " + (i+1) + ": (" + Constante +") * (" + Seed + ") = " + nn + " <br>   x" + i + ": " + sub + "    r" + i + ": 0." + (sub));
+      rec.parent('#results');
+      Seed = parseInt(sub);
+      console.log(sub);
+    }
   }
-
-  displayInfo();
-}
-
-function displayInfo() {
-  //Muestra los datos.
-  let answer = population.getBest();
-
-  mejorFrase.html("Mejor Frase:<br>" + answer);
-
-  let statstext = "Número de generaciones:     " + population.getGenerations() + "<br>";
-  statstext += "Fitness promedio:       " + nf(population.getAverageFitness()) + "<br>";
-  statstext += "Total de la población:      " + popmax + "<br>";
-  statstext += "Tiempo transcurrido:       "+ millis()/1000.0 + "<br>";
-  statstext += "Tasa de mutación:         " + floor(mutationRate * 100) + "%";
-
-  stats.html(statstext);
-
-  allPhrases.html("Todas las frases:<br>" + population.allPhrases())
 }
