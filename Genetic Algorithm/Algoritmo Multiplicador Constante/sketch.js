@@ -41,33 +41,36 @@ function MultiplicadorConstante() {
   let Seed = parseInt(seedInput.value()); // Semilla
   let Constante = parseInt(constInput.value()); // Constante
   let Iteraciones = parseInt(iterationInput.value()); // Numero de Iteraciones
-  let SeedSize =  Seed.toString().length;
+  let SeedSize = Seed.toString().length;
+  if (isNaN(Seed) || isNaN(Constante) || isNaN(Iteraciones)) {
+    alert("Datos incorrectos, vuelva a intentarlo");
+  } else {
+    for (let i = 0; i < Iteraciones; i++) {
 
-  for (let i = 0; i < Iteraciones; i++) {
+      let mult = Seed * Constante;
+      let MultSize = mult.toString().length;
 
-    let mult = Seed * Constante;
-    let MultSize = mult.toString().length;
+      if (MultSize % 2 == 0) {
+        let d1 = (MultSize - SeedSize) / 2;
+        let d2 = d1 + SeedSize;
 
-    if (MultSize % 2 == 0) {
-      let d1 = (MultSize - SeedSize) / 2;
-      let d2 = d1 + SeedSize;
-
-      nn = mult.toString();
-      let sub = nn.substring(d1, d2);
-      var rec = createP("Iteración: " + (i+1) + ": (" + Constante +") * (" + Seed + ") = " + nn + "<br>    x" + i + ": " + sub + "    r" + i + ": 0." + (sub));
-      Seed = parseInt(sub);
-      rec.parent('#results');
-    } else {
-      nc = "0" + mult.toString();
-      MultSize = nc.length;
-      let d1 = (MultSize - SeedSize) / 2;
-      let d2 = d1 + SeedSize;
-      let nn = nc;
-      var sub = nn.substring(d1, d2);
-      var rec = createP("Iteración: " + (i+1) + ": (" + Constante +") * (" + Seed + ") = " + nn + " <br>   x" + i + ": " + sub + "    r" + i + ": 0." + (sub));
-      rec.parent('#results');
-      Seed = parseInt(sub);
-      console.log(sub);
+        nn = mult.toString();
+        let sub = nn.substring(d1, d2);
+        var rec = createP("Iteración: " + (i + 1) + ": (" + Constante + ") * (" + Seed + ") = " + nn + "<br>    x" + i + ": " + sub + "    r" + i + ": 0." + (sub));
+        Seed = parseInt(sub);
+        rec.parent('#results');
+      } else {
+        nc = "0" + mult.toString();
+        MultSize = nc.length;
+        let d1 = (MultSize - SeedSize) / 2;
+        let d2 = d1 + SeedSize;
+        let nn = nc;
+        var sub = nn.substring(d1, d2);
+        var rec = createP("Iteración: " + (i + 1) + ": (" + Constante + ") * (" + Seed + ") = " + nn + " <br>   x" + i + ": " + sub + "    r" + i + ": 0." + (sub));
+        rec.parent('#results');
+        Seed = parseInt(sub);
+        console.log(sub);
+      }
     }
   }
 }
