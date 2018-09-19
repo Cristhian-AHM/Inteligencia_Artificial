@@ -3,6 +3,8 @@ let rainbows_data;
 let cats_data;
 
 let predict_result;
+let percent_ele;
+let percent_correct;
 
 const imageSize = 784;
 const totalData = 1000;
@@ -20,7 +22,11 @@ let trains = {};
 
 let nn;
 
+let training = [];
 let read;
+let inTraining = false;
+let train_image;
+let train_index;
 
 function preload() {
   trains_data = loadBytes("data/trains.bin");
@@ -28,6 +34,8 @@ function preload() {
   cats_data = loadBytes("data/cat.bin");
 
   predict_result = select('#predict');
+  percent_ele = select('#percent');
+  percent_correct = select('#correct');
 }
 
 function setup() {
@@ -40,7 +48,9 @@ function setup() {
 
   nn = new NeuralNetwork(784, 64, 3);
 
-  let training = [];
+  train_image = createImage(28, 28);
+  train_index = 0;
+
   training = training.concat(cats.training);
   training = training.concat(rainbows.training);
   training = training.concat(trains.training);
@@ -52,14 +62,13 @@ function setup() {
 
   let trainButton = select('#train');
   trainButton.mousePressed(function() {
-    trainingD(training);
-    console.log("Se terminó de entrenar.");
+    inTraining = true;
   });
 
   let testButton = select('#test');
   testButton.mousePressed(function() {
     let percent = testAll(testing);
-    console.log("Porcentaje de aciertos: " + nf(percent, 2, 2) + "%");
+    percent_correct.html(nf(percent, 2, 2) + "%");
   });
 
   let guessButton = select('#guess');
@@ -81,7 +90,7 @@ function setup() {
     let mN = m - umbral;
     if (thresh > mN) {
       let drawName = prompt("No pude identificar tu dibujo, ¿Qué dibujaste?");
-      newDraw(drawName);
+      //newDraw(drawName);
     } else {
       let classification = guess.indexOf(m);
       if (classification === CAT) {
@@ -117,22 +126,46 @@ function setup() {
   }*/
 }
 
-function trainingD(training) {
+function trainingD(show) {
   shuffle(training, true);
-  for (let i = 0; i < training.length; i++) {
-    let data = training[i];
-    let inputs = Array.from(data).map(x => x / 255);
-    let label = training[i].label;
-    let targets = [0, 0, 0];
-    targets[label] = 1;
-    nn.train(inputs, targets);
+  if (show) {
+    train_image.loadPixels();
+  }
+  for (let i = 0; i < 784; i++) {
+    let bright = training[train_index][i];
+    if (show) {
+      let index = i * 4;
+      train_image.pixels[index + 0] = 255 - bright;
+      train_image.pixels[index + 1] = 255 - bright;
+      train_image.pixels[index + 2] = 255 - bright;
+      train_image.pixels[index + 3] = 255;
+    }
+  }
+  let data = training[train_index];
+  let inputs = Array.from(data).map(x => x / 255);
+  let label = training[train_index].label;
+  let targets = [0, 0, 0];
+  targets[label] = 1;
+  nn.train(inputs, targets);
+  if (show) {
+    train_image.updatePixels();
+    image(train_image,0, 0, 280, 280);
+    percent_ele.html(nf(((train_index / training.length) * 100),2,2) + '%');
+    train_index++;
+  }
+
+  if(train_index === training.length){
+    train_index = 0;
+    inTraining = false;
+    console.log("Se terminó de entrenar.");
+      background(255);
   }
 }
 
 function testAll(testing) {
   let correct = 0;
   for (let i = 0; i < testing.length; i++) {
-    let data = trains.testing[i];
+    let data = testing[i];
     let inputs = Array.from(data).map(x => x / 255);
     let label = testing[i].label;
     let guess = nn.predict(inputs);
@@ -193,6 +226,16 @@ function callback(drawName) {
 
 
 function draw() {
+  if (inTraining) {
+    let total1 = 10;
+    for (let i = 0; i < total1; i++) {
+      if (i == total1 - 1) {
+        trainingD(true);
+      } else {
+        trainingD(false);
+      }
+    }
+  }
   strokeWeight(8);
   stroke(0);
   if (mouseIsPressed) {
