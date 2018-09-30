@@ -135,9 +135,9 @@ function training(loss) {
 //Esconde los elementos.
 function HideElements() {
   //svideo.show();
-  leftUp.hide();
+  //leftUp.hide();
   rightUp.hide();
-  leftDown.hide();
+  //leftDown.hide();
   rightDown.hide();
   train.hide();
 }
